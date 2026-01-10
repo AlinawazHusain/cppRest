@@ -14,17 +14,26 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 - HTML file serving from a templates directory
 - Multi-threaded client handling (one thread per connection)
 - No third-party dependencies (POSIX sockets only)
+- JWT for Authentication
+- Custon Json object for json like easy processing 
 
 ---
 
 ## Project Structure
 
+```text
+
 ├── http_server.hpp # Public API definitions
 ├── http_server.cpp # Server implementation
+├──json.cpp
+├──json.hpp
+├──jwt.cpp
+├──jwt.hpp
 ├── main.cpp # Example usage
 ├── templates/
 │ └── index.html # HTML templates (optional for html rendering)
 
+```
 
 
 ---
@@ -42,7 +51,7 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 Compile the project using `g++` with pthread support:
 
 ```bash
-g++ -std=c++17 main.cpp http_server.cpp -o server -pthread
+g++ src/main.cpp src/http_server.cpp src/json.cpp src/jwt.cpp -o http_server -pthread
 ```
 
 ##Example usage
@@ -50,18 +59,66 @@ g++ -std=c++17 main.cpp http_server.cpp -o server -pthread
 ```cpp
 #include "http_server.hpp"
 
-int main() {
+const std::string jwt_secret_key = "asdfghjkl";
+
+int main(){
     http_server::serversocket server(8080);
+    
 
-    server.add_route("GET", "/home", [&server](const std::string& body) {
-        return server.return_json(R"({"name":"hello","data":44})");
+
+    //Get Request with json response
+    server.add_route("GET" , "/home" , [&server](const std::string&body){
+        myjson::Json res;
+        res["name"] = "hallo";
+        res["data"] = 44;
+        return server.return_json(res.dump());
     });
+    
 
+    //Get Request with html response
     server.add_route("GET", "/html", [&server](const std::string& body) {
-        return server.return_html("index.html", true);
+            return server.return_html("index.html" , true);
+        });
+        
+    
+
+    //Get Request with jwt token generation
+    server.add_route("GET" , "/gettoken" , [&server](const std::string &body){
+        myjson::Json payload;
+        payload["id"] = "ABCD";
+        payload["user"] = "admin";
+        std::string token = jwt::Jwt::create(payload , jwt_secret_key);
+
+        payload["token"] = token;
+        return server.return_json(payload.dump());
+    });
+    
+
+
+    //Get Request with jwt verification from Authentication Bearer
+    server.add_route("GET" , "/verifytoken" , [&server](const std::string &body){
+        myjson::Json payload;
+        payload["id"] = "ABCD";
+        payload["user"] = "admin";
+        return server.return_json(payload.dump());
+    } , true , jwt_secret_key);
+
+
+
+    //Post Request with input as json or form data and reading it as well
+    server.add_route("POST" , "/postbody" , [&server](const std::string &body){
+        std::cout<<body<<std::endl;
+        myjson::Json payload;
+        
+        payload = myjson::Json::parse(body);
+        // payload["id"] = "ABCD";
+        // payload["user"] = "admin";
+        return server.return_json(payload.dump());
     });
 
     server.listen_server();
+
+
     return 0;
 }
 

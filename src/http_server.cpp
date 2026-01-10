@@ -1,7 +1,6 @@
 #include "http_server.hpp"
 
 
-
 http_server::serversocket::serversocket(int port){
     this->port = port;
     server_fd = socket(AF_INET , SOCK_STREAM , 0);
@@ -74,47 +73,43 @@ void http_server::serversocket::handle_request(int client){
     std::string method, path;
     std::istringstream iss(buffer);
     iss >> method >> path; // extract first line method and path
-    std::cout << client_ip << " - " << method << " " << path << " " << res.status_code << std::endl;
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << client_ip << " - " << method << " " << path << " " << res.status_code <<"  "<< std::ctime(&now_time)<<std::endl;
 }
 
 
 
 
 
-http_server::serversocket::HttpResponse http_server::serversocket::process_request(char* buffer , int rec){
-    std::string req(buffer , rec);
+http_server::serversocket::HttpResponse http_server::serversocket::process_request(char* buffer , int rec) {
+    std::string req(buffer, rec);
     std::istringstream iss(req);
 
     size_t pos = req.find("\r\n\r\n");
     std::string header_str;
     std::string body;
 
-
     if (pos != std::string::npos) {
-    header_str = req.substr(0, pos);
-    body = req.substr(pos + 4);
+        header_str = req.substr(0, pos);
+        body = req.substr(pos + 4);
     } else {
-        // no body
         header_str = req;
         body = "";
     }
 
-
-
-    std::string method , path, version;
-    iss>>method>>path>>version;
-    std::unordered_map<std::string , std::string> headers;
+    std::string method, path, version;
+    iss >> method >> path >> version;
+    std::unordered_map<std::string, std::string> headers;
 
     std::string line;
     while (std::getline(iss, line)) {
-        
         if (line == "\r") continue; // skip empty line
         size_t colon = line.find(":");
-
         if (colon != std::string::npos) {
             std::string key = line.substr(0, colon);
             std::string value = line.substr(colon + 1);
-            // trim spaces
             while (!value.empty() && value[0] == ' ') value.erase(0,1);
             while (!value.empty() && (value.back() == '\r' || value.back() == '\n')) value.pop_back();
             headers[key] = value;
@@ -122,10 +117,48 @@ http_server::serversocket::HttpResponse http_server::serversocket::process_reque
     }
 
     std::string key = method + " " + path;
-
+    myjson::Json payload;
+    bool have_auth = false;
     if (this->routes.find(key) != this->routes.end()) {
-        // pass the body to the handler
-        return this->routes[key](body);
+        // Check if JWT is required for this route
+        if (this->routes[key].second.second) {  // second.second == JWT required
+            // Check for Authorization header
+            have_auth = true;
+            if (headers.find("Authorization") == headers.end()) {
+                return {"401 Unauthorized", "text/plain", 401};
+            }
+
+            std::string token = headers["Authorization"];
+
+            // Make sure token starts with "Bearer "
+            if (token.rfind("Bearer ", 0) != 0) {
+                return {"401 Unauthorized", "text/plain", 401};
+            }
+
+            token = token.substr(7); // remove "Bearer "
+            // Remove quotes and spaces
+            token.erase(std::remove(token.begin(), token.end(), '"'), token.end());
+            token.erase(std::remove_if(token.begin(), token.end(), ::isspace), token.end());
+
+            // Verify JWT safely
+            try {
+                payload = jwt::Jwt::verify(token, this->routes[key].second.first, true);
+                // Optionally, you can store payload for handlers
+            } catch (const std::exception& e) {
+                std::cerr << "JWT verification failed: " << e.what() << std::endl;
+                return {"401 Unauthorized", "text/plain", 401};
+            }
+        }
+
+        // Call the route handler with the request body
+        std::string content_type = (headers.find("Content-Type") !=  headers.end())? headers["Content-Type"] : "application/json";
+        if(content_type == "application/x-www-form-urlencoded"){
+            body = handle_form_data(body);
+            return this->routes[key].first(body);
+        }
+        else if (content_type == "application/json" || content_type == "text/plain"){
+            return this->routes[key].first(body);
+        }
     }
 
     return {"404 Not Found", "text/plain", 404};
@@ -134,11 +167,9 @@ http_server::serversocket::HttpResponse http_server::serversocket::process_reque
 
 
 
-
-
-void http_server::serversocket::add_route(const std::string& method, const std::string& path, handler_t handler){
+void http_server::serversocket::add_route(const std::string& method, const std::string& path, handler_t handler , bool include_jwt , std::string jwt_secret_key){
     std::string key = method + " " + path;
-    this->routes[key] = handler;
+    this->routes[key] = {handler , {jwt_secret_key , include_jwt}};
 }
 
 
@@ -185,3 +216,76 @@ http_server::serversocket::HttpResponse http_server::serversocket::return_html(s
     return res;
 }
 
+
+
+
+std::string http_server::serversocket::handle_form_data(std::string &body){
+    std::unordered_map<std::string,std::string> data;
+    size_t start = 0;
+
+    while (start < body.size()) {
+        size_t eq = body.find('=', start);
+        size_t amp = body.find('&', start);
+
+        if (eq == std::string::npos) break;
+
+        std::string key = body.substr(start, eq - start);
+        std::string value;
+        if (amp == std::string::npos) {
+            value = body.substr(eq + 1);
+            start = body.size();
+        } else {
+            value = body.substr(eq + 1, amp - eq - 1);
+            start = amp + 1;
+        }
+        key = this->url_decode(key);
+        value = this->url_decode(value);
+        data[key] = value;
+        start = (amp == std::string::npos) ? body.size() : amp + 1;
+    }
+
+    std::stringstream ss;
+    ss << "{";
+
+    bool first = true;
+    for (const auto& [key, value] : data) {
+        if (!first) ss << ",";
+        first = false;
+
+        // Escape quotes in key and value
+        std::string k = key;
+        std::string v = value;
+        size_t pos = 0;
+        while ((pos = k.find('"', pos)) != std::string::npos) { k.insert(pos, "\\"); pos += 2; }
+        pos = 0;
+        while ((pos = v.find('"', pos)) != std::string::npos) { v.insert(pos, "\\"); pos += 2; }
+
+        ss << "\"" << k << "\":\"" << v << "\"";
+    }
+
+    ss << "}";
+    return ss.str();
+
+}
+
+
+
+// decode percent-encoded strings like a=hello%20world
+std::string http_server::serversocket::url_decode(const std::string &src) {
+    std::string ret;
+    char ch;
+    int i, ii;
+    for (i = 0; i < src.length(); i++) {
+        if (src[i] == '%') {
+            sscanf(src.substr(i + 1, 2).c_str(), "%x", &ii);
+            ch = static_cast<char>(ii);
+            ret += ch;
+            i += 2;
+        } else if (src[i] == '+') {
+            ret += ' ';
+        } else {
+            ret += src[i];
+        }
+    }
+    return ret;
+}
