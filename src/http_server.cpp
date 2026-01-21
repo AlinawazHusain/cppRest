@@ -32,13 +32,166 @@ void http_server::serversocket::listen_server(){
 }
 
 
-void http_server::serversocket::start_client_acception(){
-    while(true){
-        int client = accept(this->server_fd , nullptr , nullptr);
-        if(client <0) continue;
+void http_server::serversocket::make_non_blocking(int fd){
+    int flags = fcntl(fd, F_GETFL, 0);
+    fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+}
 
-        std::thread(&http_server::serversocket::handle_request, this , client).detach();
+
+
+void http_server::serversocket::start_client_acception(){
+    this->make_non_blocking(server_fd);
+
+    #if defined(_WIN32) || defined(_WIN64)
+
+    std::vector<pollfd> fds;
+
+    pollfd server_pool{};
+    server_pool.fd = this->server_fd;
+    server_pool.events = POLLIN;
+    fds.push_back(server_pool);
+
+    while(true){
+        int ready = poll(fds.data() , fds.size() , -1);
+        if(ready < 0) continue;
+        
+        for(size_t i = 0; i<fds.size(); i++){
+            if(fds[i].revents && POLLIN){
+                if(fds[i].fd == server_fd){
+                    int client = accept(this->server_fd , nullptr , nullptr);
+                    if(client>=0){
+                        this->make_non_blocking(client);
+                        pollfd client_fd{};
+                        client_fd.fd = client;
+                        client_fd.events = POLLIN;
+                        fds.push_back(client_fd);
+                    }
+                }
+                else{
+                    handle_request(fds[i].fd);
+                }
+            }
+        }
     }
+
+    #elif defined(__linux__)
+    
+    int epfd = epoll_create1(0);
+
+    epoll_event ev{};
+    ev.events = EPOLLIN | EPOLLET;
+    ev.data.fd = this->server_fd;
+    epoll_ctl(epfd , EPOLL_CTL_ADD , this->server_fd , &ev);
+
+    epoll_event events[100];
+
+    while(true){
+        int n = epoll_wait(epfd , events , 100 , -1);
+        
+        for(int i = 0; i<n; i++){
+            int fd = events[i].data.fd;
+
+            if(fd == server_fd){
+                while(true){
+                    int client = accept(this->server_fd, nullptr , nullptr);
+                    if(client <0){
+                        if(errno == EAGAIN || errno == EWOULDBLOCK) break;
+                        else break;
+                    }
+                    this->make_non_blocking(client);
+    
+                    epoll_event client_ev{};
+                    client_ev.events = EPOLLIN | EPOLLET;
+                    client_ev.data.fd = client;
+                    epoll_ctl(epfd , EPOLL_CTL_ADD , client , &client_ev);
+                }
+
+            }
+            else{
+                handle_request_async(epfd , fd);
+            }
+        }
+    }
+
+    
+    #endif
+}
+
+
+
+void http_server::serversocket::handle_request_async(int epfd , int client){
+    char buffer[4096];
+
+    int rec;
+    while(true){
+
+        rec = recv(client , buffer , sizeof(buffer) , 0);
+        if(rec > 0) break;
+        else if(rec == 0){
+            epoll_ctl(epfd, EPOLL_CTL_DEL, client, nullptr);
+            close(client);
+            return;
+        }
+        else {                            
+            if(errno == EAGAIN || errno == EWOULDBLOCK) 
+                return;           
+            else {
+                perror("recv");
+                epoll_ctl(epfd, EPOLL_CTL_DEL, client, nullptr);
+                close(client);
+                return;
+            }
+        }
+    }
+
+
+
+
+
+
+    sockaddr_in addr;
+    socklen_t addr_len = sizeof(addr);
+    getpeername(client, (sockaddr*)&addr, &addr_len);
+    std::string client_ip = inet_ntoa(addr.sin_addr);
+
+
+    HttpResponse res;
+    std::string req(buffer, rec);
+    res = this->process_request(buffer , rec);
+
+
+    std::string http_res = "HTTP/1.1 " + std::to_string(res.status_code) + " OK\r\n";
+    http_res += "Content-Type: " + res.content_type + "\r\n";
+    http_res += "Content-Length: " + std::to_string(res.body.size()) + "\r\n";
+    http_res += "Connection: close\r\n\r\n";
+    http_res += res.body;
+
+    size_t total_send = 0;
+    while(total_send < http_res.size()){
+
+        int sent = send(client, http_res.c_str(), http_res.size(), 0);
+
+        if(sent >0) total_send += sent;
+
+        else if(sent == -1 && (errno == EAGAIN || errno == EWOULDBLOCK)) continue;
+        
+        else {
+            perror("send");
+            epoll_ctl(epfd, EPOLL_CTL_DEL, client, nullptr);
+            close(client);
+            return;
+        }
+    }
+    epoll_ctl(epfd, EPOLL_CTL_DEL, client, nullptr);
+    close(client);
+
+    std::string method, path;
+    std::istringstream iss(buffer);
+    iss >> method >> path; // extract first line method and path
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+
+    std::cout << client_ip << " - " << method << " " << path << " " << res.status_code <<"  "<< std::ctime(&now_time)<<std::endl;
 }
 
 
@@ -194,7 +347,7 @@ http_server::serversocket::HttpResponse http_server::serversocket::return_html(s
 
     if (is_file) {
         // Build path inside ./templates
-        std::filesystem::path file_path = std::filesystem::current_path() / "templates" / html_source;
+        std::filesystem::path file_path = std::filesystem::current_path().parent_path() / "templates" / html_source;
 
         // Check if file exists and is a regular file
         if (!std::filesystem::exists(file_path) || !std::filesystem::is_regular_file(file_path)) {

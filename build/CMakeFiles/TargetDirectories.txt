@@ -1,0 +1,3 @@
+/home/villain/cppRest/build/CMakeFiles/CppRest.dir
+/home/villain/cppRest/build/CMakeFiles/edit_cache.dir
+/home/villain/cppRest/build/CMakeFiles/rebuild_cache.dir

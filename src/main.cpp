@@ -10,7 +10,7 @@ int main(){
     //Get Request with json response
     server.add_route("GET" , "/home" , [&server](const std::string&body){
         myjson::Json res;
-        res["name"] = "hallo";
+        res["name"] = "hello";
         res["data"] = 44;
         return server.return_json(res.dump());
     });

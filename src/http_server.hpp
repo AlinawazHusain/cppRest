@@ -3,7 +3,6 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <iostream>
-#include <thread>
 #include <sstream>
 #include <cstring>
 #include <arpa/inet.h>
@@ -17,6 +16,13 @@
 #include "jwt.hpp"
 #include <ctime>
 #include <chrono>
+
+// #if defined(_WIN32) || defined(_WIN64)
+#include <poll.h>
+// #else
+#include <sys/epoll.h>
+#include <fcntl.h>
+// #endif
 
 namespace http_server{
 
@@ -51,11 +57,15 @@ namespace http_server{
 
         void handle_request(int client);
 
+        void handle_request_async(int epfd , int client);
+
         std::string handle_form_data(std::string & query);
 
         std::string url_decode(const std::string &src);
 
         HttpResponse process_request(char* buffer , int rec);
+
+        void make_non_blocking(int fd);
 
         public:
 
