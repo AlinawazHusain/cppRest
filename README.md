@@ -16,6 +16,7 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 - No third-party dependencies (POSIX sockets only)
 - JWT for Authentication
 - Custon Json object for json like easy processing 
+- Inbuild LRU caching 
 
 ---
 
