@@ -129,6 +129,54 @@ CppRest/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/build
 .PHONY : CppRest/fast
 
+src/CppCache.o: src/CppCache.cpp.o
+.PHONY : src/CppCache.o
+
+# target to build an object file
+src/CppCache.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.o
+.PHONY : src/CppCache.cpp.o
+
+src/CppCache.i: src/CppCache.cpp.i
+.PHONY : src/CppCache.i
+
+# target to preprocess a source file
+src/CppCache.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.i
+.PHONY : src/CppCache.cpp.i
+
+src/CppCache.s: src/CppCache.cpp.s
+.PHONY : src/CppCache.s
+
+# target to generate assembly for a file
+src/CppCache.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.s
+.PHONY : src/CppCache.cpp.s
+
+src/data_structures.o: src/data_structures.cpp.o
+.PHONY : src/data_structures.o
+
+# target to build an object file
+src/data_structures.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.o
+.PHONY : src/data_structures.cpp.o
+
+src/data_structures.i: src/data_structures.cpp.i
+.PHONY : src/data_structures.i
+
+# target to preprocess a source file
+src/data_structures.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.i
+.PHONY : src/data_structures.cpp.i
+
+src/data_structures.s: src/data_structures.cpp.s
+.PHONY : src/data_structures.s
+
+# target to generate assembly for a file
+src/data_structures.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.s
+.PHONY : src/data_structures.cpp.s
+
 src/http_server.o: src/http_server.cpp.o
 .PHONY : src/http_server.o
 
@@ -234,6 +282,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CppRest"
+	@echo "... src/CppCache.o"
+	@echo "... src/CppCache.i"
+	@echo "... src/CppCache.s"
+	@echo "... src/data_structures.o"
+	@echo "... src/data_structures.i"
+	@echo "... src/data_structures.s"
 	@echo "... src/http_server.o"
 	@echo "... src/http_server.i"
 	@echo "... src/http_server.s"

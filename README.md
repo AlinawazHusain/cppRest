@@ -123,3 +123,44 @@ int main(){
 }
 
 ```
+
+
+## Inbuild Cache Instructions
+
+```cpp
+#include "CppCache.hpp"  //Include hpp file
+
+
+// Create instance with shared pointer for Best performance
+std::shared_ptr<CppCache::LRUCache> mycache = std::make_shared<CppCache::LRUCache>(50);
+
+
+// capture cache instance in lambda to use
+server.add_route("POST" , "/cacheAdd" , [&server , mycache](const std::string &body){});
+
+
+//Available functions
+
+/**
+ * @brief Initialises with memory assigned for caching
+ * @param avail_mem_bytes Memory in bytes want to assign for caching
+ */
+LRUCache(int avail_mem_bytes);
+
+
+/**
+ * @brief Push data in cache
+ * @param key Must be unique key for data to be unique identifier
+ * @param value String data you want to store in cache
+ */
+void push_data(const std::string &key , const std::string &value);
+
+
+
+/**
+ * @brief Get data from cache if available else Exception message
+ * @param key Key for data want to access from cache
+ * @returns std::string data
+ */
+std::string get_data(const std::string &key) const;
+```

@@ -1,10 +1,14 @@
 #include "http_server.hpp"
+#include "CppCache.hpp"
 
 const std::string jwt_secret_key = "asdfghjkl";
+
+
 
 int main(){
     http_server::serversocket server(8080);
     
+    std::shared_ptr<CppCache::LRUCache> mycache = std::make_shared<CppCache::LRUCache>(50);
 
 
     //Get Request with json response
@@ -57,6 +61,31 @@ int main(){
         return server.return_json(payload.dump());
     });
 
+    // server.add_route("POST" , "/add_in_cache" , [&server](const std::string &body){
+    server.add_route("POST" , "/cacheAdd" , [&server , mycache](const std::string &body){
+        myjson::Json payload;
+        payload = myjson::Json::parse(body);
+        std::string key = payload["key"].as_string();
+        std::string value = payload["value"].as_string();
+
+        mycache->push_data(key , value);
+
+        return server.return_json(payload.dump());
+
+    });
+
+
+    server.add_route("POST" , "/cacheGet" , [&server , mycache](const std::string &body){
+        myjson::Json payload;
+        payload = myjson::Json::parse(body);
+        std::string key = payload["key"].as_string();
+
+        std::string value = mycache->get_data(key);
+        payload[key] = value;
+
+        return server.return_json(payload.dump());
+
+    });
     server.listen_server();
 
 
