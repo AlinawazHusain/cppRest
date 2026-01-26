@@ -95,8 +95,40 @@ If project name ,  entrypointcppfile  and build type isn't given it will keep th
 Run the project:
 
 ```bash
-./run.sh
+./run.sh < ProjectName default :- CppRest> < logsdir default:- logs>
 ```
+
+
+
+## Installing , Using and Uninstalling of Build server in Linux
+
+Installing:
+
+```bash
+./install-server.sh < Project name default:- CppRest >
+```
+
+Starting server:
+
+```bash
+./start-server.sh < Project name default:- CppRest > < logs dir Optionals , default :- logs >
+```
+
+Stoping server:
+
+```bash
+./stop-server.sh < Project name default:- CppRest >
+```
+
+
+Uninstalling:
+
+```bash
+./uninstall-server.sh < Project name default:- CppRest >
+```
+
+Server logs will be written in logs/server.log by default
+
 
 ## Example usage
 
