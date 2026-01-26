@@ -1,5 +1,5 @@
 #1 /bin/bash
 
-cd build;
+PROJECT_NAME=${1:-CppRest}
 
-./CppRest
+./bin/$PROJECT_NAME

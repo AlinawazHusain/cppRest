@@ -23,21 +23,25 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 ## Project Structure
 
 ```text
+│── bin
+
 │── build
-    |── Makefile
-    │── CppRest
+
+│── include
+    │── CppCache.hpp
+    │── data_structure.hpp
+    │── http_server.hpp 
+    │── json.hpp
+    │── jwt.hpp
+
+│── lib
+    │── CppCache.cpp
+    │── data_structure.cpp
+    │── http_server.cpp 
+    │── json.cpp
+    │── jwt.cpp
 
 ├── src
-    │── CppCache.cpp
-    │── CppCache.hpp
-    │── data_structure.cpp
-    │── data_structure.hpp
-    │── http_server.hpp # Public API definitions
-    │── http_server.cpp # Server implementation
-    │── json.cpp
-    │── json.hpp
-    │── jwt.cpp
-    │── jwt.hpp
     │── main.cpp # Example usage
 
 │── templates/
@@ -67,13 +71,31 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 Build the project:
 
 ```bash
-build.sh
+./build.sh < ProjectName > < EntryPointCppFile > < Build type i.e Debug /Release >
 ```
+
+Build for this project Structure:
+```bash
+
+# Using defaults (CppRest + src/main.cpp + Debug)
+./build.sh
+
+# Debug build (default)
+./build.sh CppRest src/main.cpp Debug
+
+# Release build 
+./build.sh CppRest src/main.cpp Release
+
+```
+
+If project name ,  entrypointcppfile  and build type isn't given it will keep them CppRest , src/main.cpp and Debug  by default
+
+
 
 Run the project:
 
 ```bash
-run.sh
+./run.sh
 ```
 
 ## Example usage

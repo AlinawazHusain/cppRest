@@ -129,125 +129,125 @@ CppRest/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/build
 .PHONY : CppRest/fast
 
-src/CppCache.o: src/CppCache.cpp.o
-.PHONY : src/CppCache.o
+lib/CppCache.o: lib/CppCache.cpp.o
+.PHONY : lib/CppCache.o
 
 # target to build an object file
-src/CppCache.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.o
-.PHONY : src/CppCache.cpp.o
+lib/CppCache.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppCache.cpp.o
+.PHONY : lib/CppCache.cpp.o
 
-src/CppCache.i: src/CppCache.cpp.i
-.PHONY : src/CppCache.i
+lib/CppCache.i: lib/CppCache.cpp.i
+.PHONY : lib/CppCache.i
 
 # target to preprocess a source file
-src/CppCache.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.i
-.PHONY : src/CppCache.cpp.i
+lib/CppCache.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppCache.cpp.i
+.PHONY : lib/CppCache.cpp.i
 
-src/CppCache.s: src/CppCache.cpp.s
-.PHONY : src/CppCache.s
+lib/CppCache.s: lib/CppCache.cpp.s
+.PHONY : lib/CppCache.s
 
 # target to generate assembly for a file
-src/CppCache.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/CppCache.cpp.s
-.PHONY : src/CppCache.cpp.s
+lib/CppCache.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppCache.cpp.s
+.PHONY : lib/CppCache.cpp.s
 
-src/data_structures.o: src/data_structures.cpp.o
-.PHONY : src/data_structures.o
+lib/data_structures.o: lib/data_structures.cpp.o
+.PHONY : lib/data_structures.o
 
 # target to build an object file
-src/data_structures.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.o
-.PHONY : src/data_structures.cpp.o
+lib/data_structures.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/data_structures.cpp.o
+.PHONY : lib/data_structures.cpp.o
 
-src/data_structures.i: src/data_structures.cpp.i
-.PHONY : src/data_structures.i
+lib/data_structures.i: lib/data_structures.cpp.i
+.PHONY : lib/data_structures.i
 
 # target to preprocess a source file
-src/data_structures.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.i
-.PHONY : src/data_structures.cpp.i
+lib/data_structures.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/data_structures.cpp.i
+.PHONY : lib/data_structures.cpp.i
 
-src/data_structures.s: src/data_structures.cpp.s
-.PHONY : src/data_structures.s
+lib/data_structures.s: lib/data_structures.cpp.s
+.PHONY : lib/data_structures.s
 
 # target to generate assembly for a file
-src/data_structures.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/data_structures.cpp.s
-.PHONY : src/data_structures.cpp.s
+lib/data_structures.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/data_structures.cpp.s
+.PHONY : lib/data_structures.cpp.s
 
-src/http_server.o: src/http_server.cpp.o
-.PHONY : src/http_server.o
+lib/http_server.o: lib/http_server.cpp.o
+.PHONY : lib/http_server.o
 
 # target to build an object file
-src/http_server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/http_server.cpp.o
-.PHONY : src/http_server.cpp.o
+lib/http_server.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.o
+.PHONY : lib/http_server.cpp.o
 
-src/http_server.i: src/http_server.cpp.i
-.PHONY : src/http_server.i
+lib/http_server.i: lib/http_server.cpp.i
+.PHONY : lib/http_server.i
 
 # target to preprocess a source file
-src/http_server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/http_server.cpp.i
-.PHONY : src/http_server.cpp.i
+lib/http_server.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.i
+.PHONY : lib/http_server.cpp.i
 
-src/http_server.s: src/http_server.cpp.s
-.PHONY : src/http_server.s
+lib/http_server.s: lib/http_server.cpp.s
+.PHONY : lib/http_server.s
 
 # target to generate assembly for a file
-src/http_server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/http_server.cpp.s
-.PHONY : src/http_server.cpp.s
+lib/http_server.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.s
+.PHONY : lib/http_server.cpp.s
 
-src/json.o: src/json.cpp.o
-.PHONY : src/json.o
+lib/json.o: lib/json.cpp.o
+.PHONY : lib/json.o
 
 # target to build an object file
-src/json.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/json.cpp.o
-.PHONY : src/json.cpp.o
+lib/json.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.o
+.PHONY : lib/json.cpp.o
 
-src/json.i: src/json.cpp.i
-.PHONY : src/json.i
+lib/json.i: lib/json.cpp.i
+.PHONY : lib/json.i
 
 # target to preprocess a source file
-src/json.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/json.cpp.i
-.PHONY : src/json.cpp.i
+lib/json.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.i
+.PHONY : lib/json.cpp.i
 
-src/json.s: src/json.cpp.s
-.PHONY : src/json.s
+lib/json.s: lib/json.cpp.s
+.PHONY : lib/json.s
 
 # target to generate assembly for a file
-src/json.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/json.cpp.s
-.PHONY : src/json.cpp.s
+lib/json.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.s
+.PHONY : lib/json.cpp.s
 
-src/jwt.o: src/jwt.cpp.o
-.PHONY : src/jwt.o
+lib/jwt.o: lib/jwt.cpp.o
+.PHONY : lib/jwt.o
 
 # target to build an object file
-src/jwt.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/jwt.cpp.o
-.PHONY : src/jwt.cpp.o
+lib/jwt.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/jwt.cpp.o
+.PHONY : lib/jwt.cpp.o
 
-src/jwt.i: src/jwt.cpp.i
-.PHONY : src/jwt.i
+lib/jwt.i: lib/jwt.cpp.i
+.PHONY : lib/jwt.i
 
 # target to preprocess a source file
-src/jwt.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/jwt.cpp.i
-.PHONY : src/jwt.cpp.i
+lib/jwt.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/jwt.cpp.i
+.PHONY : lib/jwt.cpp.i
 
-src/jwt.s: src/jwt.cpp.s
-.PHONY : src/jwt.s
+lib/jwt.s: lib/jwt.cpp.s
+.PHONY : lib/jwt.s
 
 # target to generate assembly for a file
-src/jwt.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/src/jwt.cpp.s
-.PHONY : src/jwt.cpp.s
+lib/jwt.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/jwt.cpp.s
+.PHONY : lib/jwt.cpp.s
 
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
@@ -282,21 +282,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... CppRest"
-	@echo "... src/CppCache.o"
-	@echo "... src/CppCache.i"
-	@echo "... src/CppCache.s"
-	@echo "... src/data_structures.o"
-	@echo "... src/data_structures.i"
-	@echo "... src/data_structures.s"
-	@echo "... src/http_server.o"
-	@echo "... src/http_server.i"
-	@echo "... src/http_server.s"
-	@echo "... src/json.o"
-	@echo "... src/json.i"
-	@echo "... src/json.s"
-	@echo "... src/jwt.o"
-	@echo "... src/jwt.i"
-	@echo "... src/jwt.s"
+	@echo "... lib/CppCache.o"
+	@echo "... lib/CppCache.i"
+	@echo "... lib/CppCache.s"
+	@echo "... lib/data_structures.o"
+	@echo "... lib/data_structures.i"
+	@echo "... lib/data_structures.s"
+	@echo "... lib/http_server.o"
+	@echo "... lib/http_server.i"
+	@echo "... lib/http_server.s"
+	@echo "... lib/json.o"
+	@echo "... lib/json.i"
+	@echo "... lib/json.s"
+	@echo "... lib/jwt.o"
+	@echo "... lib/jwt.i"
+	@echo "... lib/jwt.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
