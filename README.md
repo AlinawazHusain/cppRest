@@ -12,7 +12,7 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 - Supports multiple HTTP methods (GET, POST, etc.)
 - JSON and HTML response helpers
 - HTML file serving from a templates directory
-- Multi-threaded client handling (one thread per connection)
+- Production ready for large volume of client using async Epoll(Linux) and Poll
 - No third-party dependencies (POSIX sockets only)
 - JWT for Authentication
 - Custon Json object for json like easy processing 
@@ -23,17 +23,32 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 ## Project Structure
 
 ```text
+│── build
+    |── Makefile
+    │── CppRest
 
-├── http_server.hpp # Public API definitions
-├── http_server.cpp # Server implementation
-├──json.cpp
-├──json.hpp
-├──jwt.cpp
-├──jwt.hpp
-├── main.cpp # Example usage
-├── templates/
-│ └── index.html # HTML templates (optional for html rendering)
+├── src
+    │── CppCache.cpp
+    │── CppCache.hpp
+    │── data_structure.cpp
+    │── data_structure.hpp
+    │── http_server.hpp # Public API definitions
+    │── http_server.cpp # Server implementation
+    │── json.cpp
+    │── json.hpp
+    │── jwt.cpp
+    │── jwt.hpp
+    │── main.cpp # Example usage
 
+│── templates/
+    │── index.html # HTML templates (optional for html rendering)
+
+│── build.sh
+│── run.sh
+│── CMakeLists.txt
+│── Dockerfile
+│── README.md
+│── LICENSE
 ```
 
 
@@ -49,10 +64,16 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 
 ## Build Instructions
 
-Compile the project using `g++` with pthread support:
+Build the project:
 
 ```bash
-g++ src/main.cpp src/http_server.cpp src/json.cpp src/jwt.cpp -o http_server -pthread
+build.sh
+```
+
+Run the project:
+
+```bash
+run.sh
 ```
 
 ##Example usage
