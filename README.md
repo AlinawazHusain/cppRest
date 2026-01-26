@@ -76,7 +76,7 @@ Run the project:
 run.sh
 ```
 
-##Example usage
+## Example usage
 
 ```cpp
 #include "http_server.hpp"
