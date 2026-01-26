@@ -24,7 +24,7 @@
 #include <fcntl.h>
 // #endif
 
-namespace http_server{
+namespace cpp_rest{
 
     /**
      * @brief Represent a server interface socket

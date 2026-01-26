@@ -30,14 +30,14 @@ This project focuses on simplicity and clarity, providing a basic REST-style API
 │── include
     │── CppCache.hpp
     │── data_structure.hpp
-    │── http_server.hpp 
+    │── CppRest.hpp 
     │── json.hpp
     │── jwt.hpp
 
 │── lib
     │── CppCache.cpp
     │── data_structure.cpp
-    │── http_server.cpp 
+    │── CppRest.cpp 
     │── json.cpp
     │── jwt.cpp
 
@@ -133,12 +133,12 @@ Server logs will be written in logs/server.log by default
 ## Example usage
 
 ```cpp
-#include "http_server.hpp"
+#include "CppRest.hpp"
 
 const std::string jwt_secret_key = "asdfghjkl";
 
 int main(){
-    http_server::serversocket server(8080);
+    cpp_rest::serversocket server(8080);
     
 
 

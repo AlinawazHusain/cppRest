@@ -153,6 +153,30 @@ lib/CppCache.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppCache.cpp.s
 .PHONY : lib/CppCache.cpp.s
 
+lib/CppRest.o: lib/CppRest.cpp.o
+.PHONY : lib/CppRest.o
+
+# target to build an object file
+lib/CppRest.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppRest.cpp.o
+.PHONY : lib/CppRest.cpp.o
+
+lib/CppRest.i: lib/CppRest.cpp.i
+.PHONY : lib/CppRest.i
+
+# target to preprocess a source file
+lib/CppRest.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppRest.cpp.i
+.PHONY : lib/CppRest.cpp.i
+
+lib/CppRest.s: lib/CppRest.cpp.s
+.PHONY : lib/CppRest.s
+
+# target to generate assembly for a file
+lib/CppRest.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/CppRest.cpp.s
+.PHONY : lib/CppRest.cpp.s
+
 lib/data_structures.o: lib/data_structures.cpp.o
 .PHONY : lib/data_structures.o
 
@@ -176,30 +200,6 @@ lib/data_structures.s: lib/data_structures.cpp.s
 lib/data_structures.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/data_structures.cpp.s
 .PHONY : lib/data_structures.cpp.s
-
-lib/http_server.o: lib/http_server.cpp.o
-.PHONY : lib/http_server.o
-
-# target to build an object file
-lib/http_server.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.o
-.PHONY : lib/http_server.cpp.o
-
-lib/http_server.i: lib/http_server.cpp.i
-.PHONY : lib/http_server.i
-
-# target to preprocess a source file
-lib/http_server.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.i
-.PHONY : lib/http_server.cpp.i
-
-lib/http_server.s: lib/http_server.cpp.s
-.PHONY : lib/http_server.s
-
-# target to generate assembly for a file
-lib/http_server.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/http_server.cpp.s
-.PHONY : lib/http_server.cpp.s
 
 lib/json.o: lib/json.cpp.o
 .PHONY : lib/json.o
@@ -285,12 +285,12 @@ help:
 	@echo "... lib/CppCache.o"
 	@echo "... lib/CppCache.i"
 	@echo "... lib/CppCache.s"
+	@echo "... lib/CppRest.o"
+	@echo "... lib/CppRest.i"
+	@echo "... lib/CppRest.s"
 	@echo "... lib/data_structures.o"
 	@echo "... lib/data_structures.i"
 	@echo "... lib/data_structures.s"
-	@echo "... lib/http_server.o"
-	@echo "... lib/http_server.i"
-	@echo "... lib/http_server.s"
 	@echo "... lib/json.o"
 	@echo "... lib/json.i"
 	@echo "... lib/json.s"

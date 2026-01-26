@@ -97,10 +97,24 @@ CMakeFiles/CppRest.dir/lib/CppCache.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CppRest.dir/lib/CppCache.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/villain/cppRest/lib/CppCache.cpp -o CMakeFiles/CppRest.dir/lib/CppCache.cpp.s
 
+CMakeFiles/CppRest.dir/lib/CppRest.cpp.o: CMakeFiles/CppRest.dir/flags.make
+CMakeFiles/CppRest.dir/lib/CppRest.cpp.o: /home/villain/cppRest/lib/CppRest.cpp
+CMakeFiles/CppRest.dir/lib/CppRest.cpp.o: CMakeFiles/CppRest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CppRest.dir/lib/CppRest.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CppRest.dir/lib/CppRest.cpp.o -MF CMakeFiles/CppRest.dir/lib/CppRest.cpp.o.d -o CMakeFiles/CppRest.dir/lib/CppRest.cpp.o -c /home/villain/cppRest/lib/CppRest.cpp
+
+CMakeFiles/CppRest.dir/lib/CppRest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CppRest.dir/lib/CppRest.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/villain/cppRest/lib/CppRest.cpp > CMakeFiles/CppRest.dir/lib/CppRest.cpp.i
+
+CMakeFiles/CppRest.dir/lib/CppRest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CppRest.dir/lib/CppRest.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/villain/cppRest/lib/CppRest.cpp -o CMakeFiles/CppRest.dir/lib/CppRest.cpp.s
+
 CMakeFiles/CppRest.dir/lib/data_structures.cpp.o: CMakeFiles/CppRest.dir/flags.make
 CMakeFiles/CppRest.dir/lib/data_structures.cpp.o: /home/villain/cppRest/lib/data_structures.cpp
 CMakeFiles/CppRest.dir/lib/data_structures.cpp.o: CMakeFiles/CppRest.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CppRest.dir/lib/data_structures.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CppRest.dir/lib/data_structures.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CppRest.dir/lib/data_structures.cpp.o -MF CMakeFiles/CppRest.dir/lib/data_structures.cpp.o.d -o CMakeFiles/CppRest.dir/lib/data_structures.cpp.o -c /home/villain/cppRest/lib/data_structures.cpp
 
 CMakeFiles/CppRest.dir/lib/data_structures.cpp.i: cmake_force
@@ -110,20 +124,6 @@ CMakeFiles/CppRest.dir/lib/data_structures.cpp.i: cmake_force
 CMakeFiles/CppRest.dir/lib/data_structures.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CppRest.dir/lib/data_structures.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/villain/cppRest/lib/data_structures.cpp -o CMakeFiles/CppRest.dir/lib/data_structures.cpp.s
-
-CMakeFiles/CppRest.dir/lib/http_server.cpp.o: CMakeFiles/CppRest.dir/flags.make
-CMakeFiles/CppRest.dir/lib/http_server.cpp.o: /home/villain/cppRest/lib/http_server.cpp
-CMakeFiles/CppRest.dir/lib/http_server.cpp.o: CMakeFiles/CppRest.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CppRest.dir/lib/http_server.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CppRest.dir/lib/http_server.cpp.o -MF CMakeFiles/CppRest.dir/lib/http_server.cpp.o.d -o CMakeFiles/CppRest.dir/lib/http_server.cpp.o -c /home/villain/cppRest/lib/http_server.cpp
-
-CMakeFiles/CppRest.dir/lib/http_server.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CppRest.dir/lib/http_server.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/villain/cppRest/lib/http_server.cpp > CMakeFiles/CppRest.dir/lib/http_server.cpp.i
-
-CMakeFiles/CppRest.dir/lib/http_server.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CppRest.dir/lib/http_server.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/villain/cppRest/lib/http_server.cpp -o CMakeFiles/CppRest.dir/lib/http_server.cpp.s
 
 CMakeFiles/CppRest.dir/lib/json.cpp.o: CMakeFiles/CppRest.dir/flags.make
 CMakeFiles/CppRest.dir/lib/json.cpp.o: /home/villain/cppRest/lib/json.cpp
@@ -157,8 +157,8 @@ CMakeFiles/CppRest.dir/lib/jwt.cpp.s: cmake_force
 CppRest_OBJECTS = \
 "CMakeFiles/CppRest.dir/src/main.cpp.o" \
 "CMakeFiles/CppRest.dir/lib/CppCache.cpp.o" \
+"CMakeFiles/CppRest.dir/lib/CppRest.cpp.o" \
 "CMakeFiles/CppRest.dir/lib/data_structures.cpp.o" \
-"CMakeFiles/CppRest.dir/lib/http_server.cpp.o" \
 "CMakeFiles/CppRest.dir/lib/json.cpp.o" \
 "CMakeFiles/CppRest.dir/lib/jwt.cpp.o"
 
@@ -167,8 +167,8 @@ CppRest_EXTERNAL_OBJECTS =
 
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/src/main.cpp.o
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/CppCache.cpp.o
+/home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/CppRest.cpp.o
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/data_structures.cpp.o
-/home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/http_server.cpp.o
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/json.cpp.o
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/lib/jwt.cpp.o
 /home/villain/cppRest/bin/CppRest: CMakeFiles/CppRest.dir/build.make

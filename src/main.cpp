@@ -1,4 +1,4 @@
-#include "http_server.hpp"
+#include "CppRest.hpp"
 #include "CppCache.hpp"
 
 const std::string jwt_secret_key = "asdfghjkl";
@@ -6,7 +6,7 @@ const std::string jwt_secret_key = "asdfghjkl";
 
 
 int main(){
-    http_server::serversocket server(8080);
+    cpp_rest::serversocket server(8080);
     
     std::shared_ptr<CppCache::LRUCache> mycache = std::make_shared<CppCache::LRUCache>(50);
 

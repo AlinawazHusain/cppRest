@@ -1,7 +1,7 @@
-#include "http_server.hpp"
+#include "CppRest.hpp"
 
 
-http_server::serversocket::serversocket(int port){
+cpp_rest::serversocket::serversocket(int port){
     this->port = port;
     server_fd = socket(AF_INET , SOCK_STREAM , 0);
 
@@ -15,7 +15,7 @@ http_server::serversocket::serversocket(int port){
 
 
 
-void http_server::serversocket::listen_server(){
+void cpp_rest::serversocket::listen_server(){
     int is_listening = listen(server_fd , 10);
     if(is_listening == -1){
         std::cout<<"Unable to start server ..."<<std::endl;
@@ -32,14 +32,14 @@ void http_server::serversocket::listen_server(){
 }
 
 
-void http_server::serversocket::make_non_blocking(int fd){
+void cpp_rest::serversocket::make_non_blocking(int fd){
     int flags = fcntl(fd, F_GETFL, 0);
     fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 }
 
 
 
-void http_server::serversocket::start_client_acception(){
+void cpp_rest::serversocket::start_client_acception(){
     this->make_non_blocking(server_fd);
 
     #if defined(_WIN32) || defined(_WIN64)
@@ -119,7 +119,7 @@ void http_server::serversocket::start_client_acception(){
 
 
 
-void http_server::serversocket::handle_request_async(int epfd , int client){
+void cpp_rest::serversocket::handle_request_async(int epfd , int client){
     char buffer[4096];
 
     int rec;
@@ -198,7 +198,7 @@ void http_server::serversocket::handle_request_async(int epfd , int client){
 
 
 
-void http_server::serversocket::handle_request(int client){
+void cpp_rest::serversocket::handle_request(int client){
     char buffer[4096];
     int rec = recv(client , buffer , sizeof(buffer) , 0);
 
@@ -236,7 +236,7 @@ void http_server::serversocket::handle_request(int client){
 
 
 
-http_server::serversocket::HttpResponse http_server::serversocket::process_request(char* buffer , int rec) {
+cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::process_request(char* buffer , int rec) {
     std::string req(buffer, rec);
     std::istringstream iss(req);
 
@@ -320,16 +320,16 @@ http_server::serversocket::HttpResponse http_server::serversocket::process_reque
 
 
 
-void http_server::serversocket::add_route(const std::string& method, const std::string& path, handler_t handler , bool include_jwt , std::string jwt_secret_key){
+void cpp_rest::serversocket::add_route(const std::string& method, const std::string& path, handler_t handler , bool include_jwt , std::string jwt_secret_key){
     std::string key = method + " " + path;
     this->routes[key] = {handler , {jwt_secret_key , include_jwt}};
 }
 
 
 
-http_server::serversocket::HttpResponse http_server::serversocket::return_json(std::string json_str, int status_code){
+cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::return_json(std::string json_str, int status_code){
     
-    http_server::serversocket::HttpResponse res;
+    cpp_rest::serversocket::HttpResponse res;
     res.content_type = "application/json";
     res.body = json_str;
     res.status_code = status_code;
@@ -338,9 +338,9 @@ http_server::serversocket::HttpResponse http_server::serversocket::return_json(s
 
 
 
-http_server::serversocket::HttpResponse http_server::serversocket::return_html(std::string html_source , bool is_file , int status_code){
+cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::return_html(std::string html_source , bool is_file , int status_code){
 
-    http_server::serversocket::HttpResponse res;
+    cpp_rest::serversocket::HttpResponse res;
 
     res.content_type = "text/html";
     res.status_code = status_code;
@@ -372,7 +372,7 @@ http_server::serversocket::HttpResponse http_server::serversocket::return_html(s
 
 
 
-std::string http_server::serversocket::handle_form_data(std::string &body){
+std::string cpp_rest::serversocket::handle_form_data(std::string &body){
     std::unordered_map<std::string,std::string> data;
     size_t start = 0;
 
@@ -424,7 +424,7 @@ std::string http_server::serversocket::handle_form_data(std::string &body){
 
 
 // decode percent-encoded strings like a=hello%20world
-std::string http_server::serversocket::url_decode(const std::string &src) {
+std::string cpp_rest::serversocket::url_decode(const std::string &src) {
     std::string ret;
     char ch;
     int i, ii;
