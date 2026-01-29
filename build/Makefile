@@ -201,30 +201,6 @@ lib/data_structures.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/data_structures.cpp.s
 .PHONY : lib/data_structures.cpp.s
 
-lib/json.o: lib/json.cpp.o
-.PHONY : lib/json.o
-
-# target to build an object file
-lib/json.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.o
-.PHONY : lib/json.cpp.o
-
-lib/json.i: lib/json.cpp.i
-.PHONY : lib/json.i
-
-# target to preprocess a source file
-lib/json.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.i
-.PHONY : lib/json.cpp.i
-
-lib/json.s: lib/json.cpp.s
-.PHONY : lib/json.s
-
-# target to generate assembly for a file
-lib/json.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/lib/json.cpp.s
-.PHONY : lib/json.cpp.s
-
 lib/jwt.o: lib/jwt.cpp.o
 .PHONY : lib/jwt.o
 
@@ -291,9 +267,6 @@ help:
 	@echo "... lib/data_structures.o"
 	@echo "... lib/data_structures.i"
 	@echo "... lib/data_structures.s"
-	@echo "... lib/json.o"
-	@echo "... lib/json.i"
-	@echo "... lib/json.s"
 	@echo "... lib/jwt.o"
 	@echo "... lib/jwt.i"
 	@echo "... lib/jwt.s"

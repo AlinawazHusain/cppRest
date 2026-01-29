@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/villain/cppRest/include
 
-CXX_FLAGS = -g -O0 -g
+CXX_FLAGS = -g -std=gnu++17 -O0 -g
 

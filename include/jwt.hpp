@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "json.hpp"
+#include <nlohmann/json.hpp>
 
 namespace jwt {
 
@@ -15,7 +15,7 @@ public:
      * @return JWT token string
      */
     static std::string create(
-        const myjson::Json& payload,
+        const nlohmann::json& payload,
         const std::string& secret,
         int expire_seconds = 0
     );
@@ -28,7 +28,7 @@ public:
      * @return JSON payload if valid, empty JSON if invalid
      * @throws std::runtime_error on invalid token or signature
      */
-    static myjson::Json verify(
+    static nlohmann::json verify(
         const std::string& token,
         const std::string& secret,
         bool check_expiration = true

@@ -37,7 +37,8 @@ mkdir -p bin
 cmake -S . -B build \
       -DPROJECT_NAME=$PROJECT_NAME \
       -DMAIN_CPP=$MAIN_CPP\
-      -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+      -DCMAKE_BUILD_TYPE=$BUILD_TYPE\
+
 
 # Build
 cmake --build build --config $BUILD_TYPE

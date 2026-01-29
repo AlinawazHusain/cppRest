@@ -81,12 +81,12 @@ clean: CMakeFiles/CppRest.dir/clean
 CMakeFiles/CppRest.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CppRest.dir/build.make CMakeFiles/CppRest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target CppRest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/villain/cppRest/build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target CppRest"
 .PHONY : CMakeFiles/CppRest.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/CppRest.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/villain/cppRest/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/villain/cppRest/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CppRest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/villain/cppRest/build/CMakeFiles 0
 .PHONY : CMakeFiles/CppRest.dir/rule

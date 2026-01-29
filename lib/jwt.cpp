@@ -75,17 +75,17 @@ static std::string sign(const std::string& data, const std::string& secret) {
    Create JWT
    ========================= */
 
-std::string Jwt::create(const myjson::Json& payload,
+std::string Jwt::create(const nlohmann::json& payload,
                         const std::string& secret,
                         int expire_seconds)
 {
     if (secret.empty()) throw std::runtime_error("Secret key cannot be empty");
 
-    myjson::Json header;
+    nlohmann::json header;
     header["alg"] = "CUSTOM";
     header["typ"] = "JWT";
 
-    myjson::Json body = payload;
+    nlohmann::json body = payload;
     body["iat"] = static_cast<int>(std::time(nullptr));
 
     if (expire_seconds > 0) {
@@ -96,7 +96,6 @@ std::string Jwt::create(const myjson::Json& payload,
     std::string p = base64_url_encode(body.dump());
     std::string data = h + "." + p;
     std::string sig = base64_url_encode(sign(data, secret));
-
     return data + "." + sig;
 }
 
@@ -104,7 +103,7 @@ std::string Jwt::create(const myjson::Json& payload,
    Verify JWT
    ========================= */
 
-myjson::Json Jwt::verify(const std::string& token,
+nlohmann::json Jwt::verify(const std::string& token,
                          const std::string& secret,
                          bool check_expiration)
 {
@@ -127,10 +126,10 @@ myjson::Json Jwt::verify(const std::string& token,
         throw std::runtime_error("Invalid signature");
     }
 
-    myjson::Json payload = myjson::Json::parse(base64_url_decode(p));
+    nlohmann::json payload = nlohmann::json::parse(base64_url_decode(p));
     if (check_expiration && payload.is_object()) {
-        if (payload["exp"].is_number()) {
-            int exp = static_cast<int>(payload["exp"].as_number());
+        if (payload.contains("exp") && payload["exp"].is_number()) {
+            std::int64_t exp = payload["exp"].get<std::int64_t>();
             if (std::time(nullptr) > exp) {
                 throw std::runtime_error("Token expired");
             }

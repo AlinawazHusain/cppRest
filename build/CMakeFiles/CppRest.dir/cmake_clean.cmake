@@ -7,8 +7,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/CppRest.dir/lib/CppRest.cpp.o.d"
   "CMakeFiles/CppRest.dir/lib/data_structures.cpp.o"
   "CMakeFiles/CppRest.dir/lib/data_structures.cpp.o.d"
-  "CMakeFiles/CppRest.dir/lib/json.cpp.o"
-  "CMakeFiles/CppRest.dir/lib/json.cpp.o.d"
   "CMakeFiles/CppRest.dir/lib/jwt.cpp.o"
   "CMakeFiles/CppRest.dir/lib/jwt.cpp.o.d"
   "CMakeFiles/CppRest.dir/src/main.cpp.o"

@@ -130,6 +130,20 @@ Uninstalling:
 Server logs will be written in logs/server.log by default
 
 
+## Parameter types
+
+```cpp
+    //FOR NO INPUT (VOID)
+    server.add_route<std::monostate>("GET" , "/home" , [&server](const std::monostate&){...})
+
+
+    //FOR "application/x-www-form-urlencoded" OR "application/json" OR "text/plain" 
+    // IT will make nlohmann::json object of data from client
+    server.add_route<nlohmann::json>("POST" , "/gettoken" , [&server](const nlohmann::json& body){...})
+
+```
+
+
 ## Example usage
 
 ```cpp
@@ -143,54 +157,49 @@ int main(){
 
 
     //Get Request with json response
-    server.add_route("GET" , "/home" , [&server](const std::string&body){
-        myjson::Json res;
-        res["name"] = "hallo";
+    server.add_route<std::monostate>("GET" , "/home" , [&server](const std::monostate&){
+        nlohmann::json res;
+        res["name"] = "hello";
         res["data"] = 44;
-        return server.return_json(res.dump());
+        return server.return_json(res);
     });
     
 
-    //Get Request with html response
-    server.add_route("GET", "/html", [&server](const std::string& body) {
-            return server.return_html("index.html" , true);
-        });
-        
+    // //Get Request with html response
+    server.add_route<std::monostate>("GET", "/html", [&server](const std::monostate&) {
+        return server.return_html("index.html" , true);
+    });
+
+
+    server.add_route<nlohmann::json>("POST", "/json", [&server](const nlohmann::json& body) {
+        return server.return_json(body);
+    });
+
     
 
-    //Get Request with jwt token generation
-    server.add_route("GET" , "/gettoken" , [&server](const std::string &body){
-        myjson::Json payload;
+    // //Get Request with jwt token generation
+    server.add_route<nlohmann::json>("POST" , "/gettoken" , [&server](const nlohmann::json& body){
+        nlohmann::json payload;
         payload["id"] = "ABCD";
         payload["user"] = "admin";
         std::string token = jwt::Jwt::create(payload , jwt_secret_key);
-
         payload["token"] = token;
-        return server.return_json(payload.dump());
+        return server.return_json(payload);
     });
+    
     
 
 
     //Get Request with jwt verification from Authentication Bearer
-    server.add_route("GET" , "/verifytoken" , [&server](const std::string &body){
-        myjson::Json payload;
+    server.add_route<std::monostate>("GET" , "/verifytoken" , [&server](const std::monostate&){
+        nlohmann::json payload;
         payload["id"] = "ABCD";
         payload["user"] = "admin";
-        return server.return_json(payload.dump());
+        return server.return_json(payload);
     } , true , jwt_secret_key);
 
 
 
-    //Post Request with input as json or form data and reading it as well
-    server.add_route("POST" , "/postbody" , [&server](const std::string &body){
-        std::cout<<body<<std::endl;
-        myjson::Json payload;
-        
-        payload = myjson::Json::parse(body);
-        // payload["id"] = "ABCD";
-        // payload["user"] = "admin";
-        return server.return_json(payload.dump());
-    });
 
     server.listen_server();
 
@@ -212,7 +221,7 @@ std::shared_ptr<CppCache::LRUCache> mycache = std::make_shared<CppCache::LRUCach
 
 
 // capture cache instance in lambda to use
-server.add_route("POST" , "/cacheAdd" , [&server , mycache](const std::string &body){});
+server.add_route<nlohmann::json>("POST" , "/cacheAdd" , [&server , mycache](const nlohmann::json&body){});
 
 
 //Available functions

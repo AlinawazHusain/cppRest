@@ -214,11 +214,13 @@ void cpp_rest::serversocket::handle_request(int client){
     res = this->process_request(buffer , rec);
 
 
+
     std::string http_res = "HTTP/1.1 " + std::to_string(res.status_code) + " OK\r\n";
     http_res += "Content-Type: " + res.content_type + "\r\n";
     http_res += "Content-Length: " + std::to_string(res.body.size()) + "\r\n";
     http_res += "Connection: close\r\n\r\n";
     http_res += res.body;
+
 
     send(client, http_res.c_str(), http_res.size(), 0);
     close(client);
@@ -270,11 +272,12 @@ cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::process_request(cha
     }
 
     std::string key = method + " " + path;
-    myjson::Json payload;
+    nlohmann::json payload;
     bool have_auth = false;
-    if (this->routes.find(key) != this->routes.end()) {
+    auto route_data = this->routes.find(key);
+    if (route_data != this->routes.end()) {
         // Check if JWT is required for this route
-        if (this->routes[key].second.second) {  // second.second == JWT required
+        if (route_data->second.have_jwt) {  // second.second == JWT required
             // Check for Authorization header
             have_auth = true;
             if (headers.find("Authorization") == headers.end()) {
@@ -295,7 +298,7 @@ cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::process_request(cha
 
             // Verify JWT safely
             try {
-                payload = jwt::Jwt::verify(token, this->routes[key].second.first, true);
+                payload = jwt::Jwt::verify(token, route_data->second.jwt_secret_key, true);
                 // Optionally, you can store payload for handlers
             } catch (const std::exception& e) {
                 std::cerr << "JWT verification failed: " << e.what() << std::endl;
@@ -304,13 +307,51 @@ cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::process_request(cha
         }
 
         // Call the route handler with the request body
+        auto& handler = route_data->second.req_handler;
+        std::variant<nlohmann::json, std::monostate> body_variant;
+
         std::string content_type = (headers.find("Content-Type") !=  headers.end())? headers["Content-Type"] : "application/json";
-        if(content_type == "application/x-www-form-urlencoded"){
-            body = handle_form_data(body);
-            return this->routes[key].first(body);
+        // Decide what to push
+        if (content_type == "application/x-www-form-urlencoded") {
+            std::string form_data = handle_form_data(body);
+            body_variant = nlohmann::json(form_data);
+        } 
+        else if (content_type == "application/json" || content_type == "text/plain") {
+            if (!body.empty()) {
+                body_variant = nlohmann::json::parse(body);
+            } else {
+                body_variant = std::monostate{};
+            }
         }
-        else if (content_type == "application/json" || content_type == "text/plain"){
-            return this->routes[key].first(body);
+        else if (body.empty()) {
+            body_variant = std::monostate{};
+        }
+
+
+        
+        try {
+        // Call the handler with the variant
+        return handler(body_variant);
+        } 
+        catch (const std::bad_any_cast& e) {
+        // Happens if std::any_cast fails
+        std::cerr << "Handler error (bad_any_cast): " << e.what() << "\n";
+        return { "Internal Server Error: bad request body", "text/plain", 400 };
+        } 
+        catch (const std::runtime_error& e) {
+            // For your dto.get_val errors etc.
+            std::cerr << "Handler runtime error: " << e.what() << "\n";
+            return { std::string("Runtime error: ") + e.what(), "text/plain", 400 };
+        } 
+        catch (const std::exception& e) {
+            // Generic exceptions
+            std::cerr << "Handler exception: " << e.what() << "\n";
+            return { std::string("Internal Server Error: ") + e.what(), "text/plain", 500 };
+        }
+        catch (...) {
+            // Catch all
+            std::cerr << "Unknown handler exception\n";
+            return { "Unknown Internal Server Error", "text/plain", 500 };
         }
     }
 
@@ -320,18 +361,20 @@ cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::process_request(cha
 
 
 
-void cpp_rest::serversocket::add_route(const std::string& method, const std::string& path, handler_t handler , bool include_jwt , std::string jwt_secret_key){
-    std::string key = method + " " + path;
-    this->routes[key] = {handler , {jwt_secret_key , include_jwt}};
-}
 
 
 
-cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::return_json(std::string json_str, int status_code){
+cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::return_json(nlohmann::json body, int status_code){
     
     cpp_rest::serversocket::HttpResponse res;
+    std::string body_str;
+    if constexpr (std::is_same_v<decltype(body), nlohmann::json>) {
+        body_str = body.dump();
+    } else {
+        body_str = body;
+    }
     res.content_type = "application/json";
-    res.body = json_str;
+    res.body = body_str;
     res.status_code = status_code;
     return res;
 }
@@ -347,7 +390,7 @@ cpp_rest::serversocket::HttpResponse cpp_rest::serversocket::return_html(std::st
 
     if (is_file) {
         // Build path inside ./templates
-        std::filesystem::path file_path = std::filesystem::current_path().parent_path() / "templates" / html_source;
+        std::filesystem::path file_path = std::filesystem::current_path() / "templates" / html_source;
 
         // Check if file exists and is a regular file
         if (!std::filesystem::exists(file_path) || !std::filesystem::is_regular_file(file_path)) {
